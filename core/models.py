@@ -1,5 +1,5 @@
 from django.db import models
-from authapp.models import Customer
+from authapp.models import CustomerPurchase, Customer
 from django.utils import timezone
 
 class Payment(models.Model):
@@ -9,7 +9,7 @@ class Payment(models.Model):
     createdAt = models.DateTimeField(auto_now_add=True)
 
 class FinancialStatus(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="financies")
+    customerPurchase = models.ForeignKey(CustomerPurchase, on_delete=models.CASCADE, related_name="financies")
     amount = models.FloatField("Summa")
 
     createdAt = models.DateTimeField(auto_now_add=True)
