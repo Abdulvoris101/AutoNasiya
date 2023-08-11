@@ -20,7 +20,7 @@ class Customer(models.Model):
         verbose_name_plural = "Mijozlar"
 
 
-class CustomerPurchase(models.Model):
+class ProductPurchase(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="purchases")
     productName = models.CharField("Maxsulot nomi", max_length=255)
     costProduct = models.FloatField("Maxsulot tan narxi")
@@ -29,7 +29,7 @@ class CustomerPurchase(models.Model):
     paymentDay = models.IntegerField("To'lov kuni", default=15)
     amountOfMonth = models.FloatField("Oylik tolov", null=True, blank=True)
     totalPrice = models.FloatField("Ummumiy summa", null=True, blank=True)
-    
+
     nextPaymentAmount = models.FloatField("Keyingi to'lov", null=True, blank=True)
     duration = models.IntegerField(null=True, blank=True)
     startedAt = models.DateTimeField("Boshlanish sanasi", default=timezone.now)
