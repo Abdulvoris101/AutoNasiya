@@ -22,3 +22,7 @@ class FinancialStatus(models.Model):
         verbose_name = "Finance"
         verbose_name_plural = "Finances"
 
+
+    def __str__(self):
+        return f"{self.productPurchase} - {self.amount}"
+
