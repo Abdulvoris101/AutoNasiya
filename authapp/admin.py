@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import Customer, ProductPurchase
 from core.models import Payment
 
+
 class ProductPurchaseInline(admin.TabularInline):
     model = ProductPurchase
     readonly_fields = ("id", "totalPrice", "amountOfMonth", "duration")
@@ -10,7 +11,8 @@ class ProductPurchaseInline(admin.TabularInline):
 
 class PaymentInline(admin.TabularInline):
     model = Payment
-    extra = 1
+    extra = 0
+
 
 
 @admin.register(ProductPurchase)
@@ -23,10 +25,9 @@ class ProductPurchaseAdmin(admin.ModelAdmin):
     get_customer_checkid.short_description = "Customer Check ID"
 
     readonly_fields = ("id", "totalPrice", "amountOfMonth", "duration", "nextPaymentAmount")
-    list_display = ("customer",  "productName", "get_customer_checkid", "nextPaymentAmount", "totalPrice", "duration")
+    list_display = ("customer",  "productName", "get_customer_checkid", "paymentDay", "nextPaymentAmount", "totalPrice", "duration")
     search_fields = ("productName", "customer__checkId")
     list_filter = ("customer", )
-
 
 
 @admin.register(Customer)

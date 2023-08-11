@@ -29,8 +29,8 @@ class ProductPurchase(models.Model):
     paymentDay = models.IntegerField("To'lov kuni", default=15)
     amountOfMonth = models.FloatField("Oylik tolov", null=True, blank=True)
     totalPrice = models.FloatField("Ummumiy summa", null=True, blank=True)
-
-    nextPaymentAmount = models.FloatField("Keyingi to'lov", null=True, blank=True)
+    
+    nextPaymentAmount = models.FloatField("Keyingi to'lov summasi", null=True, blank=True)
     duration = models.IntegerField(null=True, blank=True)
     startedAt = models.DateTimeField("Boshlanish sanasi", default=timezone.now)
     finishedAt = models.DateTimeField("Tugash sanasi")

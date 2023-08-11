@@ -18,3 +18,7 @@ class FinancialStatus(models.Model):
 
     createdAt = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = "Finance"
+        verbose_name_plural = "Finances"
+

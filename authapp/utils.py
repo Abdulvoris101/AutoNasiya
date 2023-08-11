@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 class CalculateAutoFields:
     def __init__(self, instance):
         self.instance = instance
-
+        self.call()
 
     def calc_totalPrice(self):
         instance = self.instance
@@ -36,6 +36,15 @@ class CalculateAutoFields:
         instance = self.instance
         
         try:
-            currentAmount = FinancialStatus.objects.get(customerPurchase=instance)
+            currentSum = FinancialStatus.objects.get(productPurchase=instance).amount
+            reverseSum = currentSum * -1
+            self.nextPaymentAmount =  self.amountOfMonth + (reverseSum)
+
         except ObjectDoesNotExist:
-            raise Exception("Please add FinancialStatus object to this product")
+            raise Exception("Iltimos FinancialStatus object yarating ushbu product uchun")
+
+    def call(self):
+        self.calc_totalPrice()
+        self.calc_duration()
+        self.calc_monthlyPayment()
+        self.calc_nextPayment()
