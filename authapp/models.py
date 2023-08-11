@@ -12,7 +12,7 @@ class Customer(models.Model):
     updatedAt = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.phoneNumber} - {self.purchases.first().productName}"
+        return f"{self.phoneNumber}"
 
 
     class Meta:
