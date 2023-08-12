@@ -1,6 +1,5 @@
 from dateutil.relativedelta import relativedelta
 from core.models import FinancialStatus
-from django.core.exceptions import ObjectDoesNotExist
 
 
 class CalculateAutoFields:
@@ -26,25 +25,17 @@ class CalculateAutoFields:
         
         # Convert to normal nums
         self.duration = duration.months + 12 * duration.years
+        self.duration += 1
     
 
     def calc_monthlyPayment(self):
         # Calculate monthly payment of customer
         self.amountOfMonth = self.totalPrice / self.duration
 
-    def calc_nextPayment(self):
-        instance = self.instance
-        
-        try:
-            currentSum = FinancialStatus.objects.get(productPurchase=instance).amount
-            reverseSum = currentSum * -1
-            self.nextPaymentAmount =  self.amountOfMonth + (reverseSum)
 
-        except ObjectDoesNotExist:
-            raise Exception("Iltimos FinancialStatus object yarating ushbu product uchun")
+    
 
     def call(self):
         self.calc_totalPrice()
         self.calc_duration()
         self.calc_monthlyPayment()
-        self.calc_nextPayment()

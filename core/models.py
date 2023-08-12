@@ -24,5 +24,5 @@ class FinancialStatus(models.Model):
 
 
     def __str__(self):
-        return f"{self.productPurchase} - {self.amount}"
+        return f"{self.productPurchase}, {self.amount}"
 

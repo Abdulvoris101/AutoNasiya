@@ -19,6 +19,10 @@ class Customer(models.Model):
         verbose_name = "Mijoz"
         verbose_name_plural = "Mijozlar"
 
+STATUS_CHOISES = (
+    ("OPEN", "Ochiq"),
+    ("CLOSE", "Yopiq"),
+)
 
 class ProductPurchase(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="purchases")
@@ -26,12 +30,12 @@ class ProductPurchase(models.Model):
     costProduct = models.FloatField("Maxsulot tan narxi")
     startingFee = models.FloatField("Boshlang'ich to'lov", default=0.0)
     taxRate = models.FloatField("Soliq foizi")
-    paymentDay = models.IntegerField("To'lov kuni", default=15)
     amountOfMonth = models.FloatField("Oylik tolov", null=True, blank=True)
     totalPrice = models.FloatField("Ummumiy summa", null=True, blank=True)
 
     nextPaymentAmount = models.FloatField("Keyingi to'lov summasi", null=True, blank=True)
-    duration = models.IntegerField("Davomiyligi", null=True, blank=True)
+    duration = models.FloatField("Davomiyligi", null=True, blank=True)
+    status = models.CharField("Xisob", choices=STATUS_CHOISES, max_length=5, default="OPEN")
     startedAt = models.DateTimeField("Boshlanish sanasi", default=timezone.now)
     finishedAt = models.DateTimeField("Tugash sanasi")
 
