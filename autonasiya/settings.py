@@ -72,7 +72,7 @@ WSGI_APPLICATION = 'autonasiya.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': "usertable",
+        'NAME': "autonasiya",
         'USER': "postgres",
         'HOST': "localhost",
         'PORT': 5432,
