@@ -1,5 +1,28 @@
 from dateutil.relativedelta import relativedelta
 from core.models import FinancialStatus
+import hashlib
+import os
+from django.conf import settings
+
+SECRET_KEY = settings.SECRET_KEY
+
+class HashePassword:
+
+    @classmethod
+    def hash_password(cls, password):
+        
+        # Combine password and salt, then hash
+        combined = password.encode('utf-8')
+        hashed = hashlib.sha256(combined).hexdigest()
+        
+        return hashed
+
+
+    @classmethod
+    def check_password(cls, password, hashed_password):
+        hashed_input, _ = cls.hash_password(password)
+
+        return hashed_password == hashed_input
 
 
 class CalculateAutoFields:
@@ -17,25 +40,21 @@ class CalculateAutoFields:
         self.totalPrice = (instance.taxRate / 100) * amountWithoutFee + amountWithoutFee
 
 
-    def calc_duration(self):
+    def calc_finishedAt(self):
         instance = self.instance
 
         # calculate duration in months
-        duration = relativedelta(instance.finishedAt, instance.startedAt)
+        self.finishedAt = instance.startedAt + relativedelta(months=instance.duration)
         
-        # Convert to normal nums
-        self.duration = duration.months + 12 * duration.years
-        self.duration += 1
+
     
 
     def calc_monthlyPayment(self):
         # Calculate monthly payment of customer
-        self.amountOfMonth = self.totalPrice / self.duration
+        self.amountOfMonth = self.totalPrice / self.instance.duration
 
-
-    
 
     def call(self):
         self.calc_totalPrice()
-        self.calc_duration()
+        self.calc_finishedAt()
         self.calc_monthlyPayment()
