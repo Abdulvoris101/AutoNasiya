@@ -5,7 +5,7 @@ from django.views.generic.edit import FormView
 from .models import Customer
 import shortuuid
 
-class CustomerView(FormView):
+class CustomerCreateView(FormView):
     template_name = "accounts/customerCreate.html"
     success_url = "/"
     form_class  = ProductPurchaseForm
