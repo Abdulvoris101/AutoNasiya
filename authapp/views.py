@@ -1,9 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import CreateView
 from .forms import ProductPurchaseForm
 from django.views.generic.edit import FormView
-from .models import Customer
+from .models import Customer, ProductPurchase
 import shortuuid
+
+
+def index(request):
+    customer = Customer.objects.all()
+    return render(request, "index.html",  {'customer': customer})
+
+
+
 
 class CustomerCreateView(FormView):
     template_name = "accounts/customerCreate.html"
@@ -27,8 +35,11 @@ class CustomerCreateView(FormView):
         return super().form_valid(form)
 
 
-def index(request):
-    return render(request, "index.html")
+def customerDetail(request, item_id):
+    
+    items = ProductPurchase.objects.filter(pk=item_id)
 
-def detail(request):
-    return render(request, "detail.html")
+    context = {
+        'items': items
+    }
+    return render(request, "accounts/customerDetail.html", context)

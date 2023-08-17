@@ -18,7 +18,7 @@ SECRET_KEY = 'django-insecure-%nn30qw-k(ep#r(kon=&bi3qfkl#1nd08gi!!z8x9=yb_r+6it
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -61,6 +61,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'autonasiya.wsgi.application'
 
