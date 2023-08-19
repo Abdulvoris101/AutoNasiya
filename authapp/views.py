@@ -7,8 +7,7 @@ from django.db.models import Q
 from core.models import Payment
 import shortuuid
 
-def login(request):
-    return render(request, "accounts/autorization/login.html")
+
 
 def index(request):
     customer = Customer.objects.all()
