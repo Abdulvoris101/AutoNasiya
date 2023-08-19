@@ -1,6 +1,8 @@
 {% extends 'layouts/base.html' %} {% block content %}
 
 
+{% if product.status == 'OPEN' %}
+
 <div class="container mt-4">
   <div class="row">
     <div class="d-flex">
@@ -29,12 +31,17 @@
     
   </div>
 </div>
+{% else %}
+  <div class="container">
+    <h4 class="pt-4">Xisob yopilgan</h3>
+  </div>
 
+{% endif %}
+      
 
 
 <div class="container table-responsive py-5">
   <table class="table table-bordered table-hover shadow-sm">
-    {% for product in product %}
     
     <thead class="">
       <tr class="">
@@ -127,9 +134,11 @@
     <thead class="">
       <tr class="">
         <th scope="col">Tel</th>
-        <th scope="col">{{product.customer.phoneNumber}}</th>
+        <th scope="col">{{ product.customer.phoneNumber}}</th>
       </tr>
     </thead>
+    
+    
 
     <thead class="">
       <tr class="">
@@ -137,15 +146,13 @@
         <th scope="col">{{ product.customer.checkId }}</th>
       </tr>
     </thead>
-
     <thead class="">
       <tr class="">
         <th scope="col">Parol</th>
-        <th scope="col">{{product.customer.password}}</th>
+        <th scope="col">{{product.customer.showedPassword}}</th>
       </tr>
     </thead>
     
-  {% endfor %}
   </table>
 </div>
 
@@ -161,12 +168,12 @@
       </tr>
     </thead>
     {% for add in payment %}
-    <thead class="">
-      <tr class="">
-        <th scope="col">{{ add.date }}</th>
-        <th scope="col">{{ add.amount }}$</th>
-      </tr>
-    </thead>
+      <thead class="">
+        <tr class="">
+          <th scope="col">{{ add.date }}</th>
+          <th scope="col">{{ add.amount }}$</th>
+        </tr>
+      </thead>
     {% endfor %}
   
   </table>

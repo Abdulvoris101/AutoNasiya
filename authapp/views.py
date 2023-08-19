@@ -1,47 +1,29 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from .forms import ProductPurchaseForm
-from core.forms import PaymentForm
+from django.shortcuts import render, redirect
+from .forms import ProductPurchaseForm, LoginForm
 from django.views.generic.edit import FormView
-from .models import Customer, ProductPurchase
-from django.db.models import Q
-from core.models import Payment
+from .models import Customer
 import shortuuid
-
-
-
-def index(request):
-    customer = Customer.objects.all()
-
-    query = request.GET.get('q')  # Get the search query from the URL parameter
-    if query:
-        results = Customer.objects.filter(
-            Q(firstName__icontains=query) |  # Search by firstName
-            Q(phoneNumber__icontains=query) |  # Search by phoneNumber
-            Q(checkId__icontains=query)  # Search by checkId
-        )
-    else:
-        results = []
-
-    context = {
-        'query': query,
-        'results': results,
-        'customer': customer
-    }
-    
-    
-    return render(request, "index.html", context)
-
+from django.views import View
+from django.contrib.auth import login, authenticate, logout
+from django.contrib import messages
 
 class CustomerCreateView(FormView):
     template_name = "accounts/customerCreate.html"
     success_url = "/"
     form_class  = ProductPurchaseForm
+    
     def form_valid(self, form):
-        customer = Customer.objects.create(
+        password = shortuuid.uuid()
+
+        customer = Customer(
             firstName=form.cleaned_data['firstName'],
             phoneNumber=form.cleaned_data['phoneNumber'],
-            password=shortuuid.uuid(),
+            showedPassword=password
         )
+
+        customer.set_password(password)
+        customer.save()
+
         product_purchase = form.save(commit=False)
         product_purchase.customer = customer
         product_purchase.save()
@@ -49,37 +31,33 @@ class CustomerCreateView(FormView):
         return super().form_valid(form)
 
 
+class LoginView(View):
+
+    def get(self, request):
+        form = LoginForm()
+
+        return render(request, "accounts/authorization/login.html", {'form': form})
 
 
-
-def customerDetail(request, pk):
-    product = ProductPurchase.objects.filter(pk=pk)
+    def post(self, request):
+        form = LoginForm(request.POST)
         
-    item = get_object_or_404(ProductPurchase, pk=pk)
-    payment = Payment.objects.filter(productPurchase=item)
-
-    payment_count = payment.count()
-    
-    if request.method == 'POST':
-        form = PaymentForm(request.POST)
         if form.is_valid():
-            product = form.save(commit=False)
-            product.productPurchase = item
-            product.save()
+            phoneNumber = form.cleaned_data['phoneNumber']
+            password = form.cleaned_data['password']
+            user = authenticate(request, phoneNumber=phoneNumber, password=password)
 
-            return redirect('index')  # Replace 'index' with your desired URL name
-    else:
-        form = PaymentForm()
+            if user:
+                login(request, user)
+                return redirect('index')  # Replace 'posts' with your desired URL name
 
-    context = {
-        'item': item,
-        'payment': payment,
-        'form': form,
-        'product': product,
-        'payment_count' : payment_count
-    }
-    
-    return render(request, "accounts/customerDetail.html", context)
+            messages.error(request, "Telefon nomer yoki password no'tog'ri!" )
+            
+        
+        return render(request, "accounts/authorization/login.html", {'form': form})
 
 
-
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect("index")

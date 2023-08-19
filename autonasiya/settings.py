@@ -80,6 +80,8 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = "authapp.Customer"
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

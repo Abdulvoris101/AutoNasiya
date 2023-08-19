@@ -50,3 +50,7 @@ class ProductPurchaseForm(forms.ModelForm):
         "class": "form-control",
     }))
 
+
+class LoginForm(forms.Form):
+    phoneNumber = forms.CharField(max_length=255)
+    password = forms.CharField(max_length=500   , widget=forms.PasswordInput)

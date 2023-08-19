@@ -1,16 +1,25 @@
 from django.db import models
 import shortuuid
 from django.utils import timezone
+from .managers import CustomerManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
 
-
-class Customer(models.Model):
+class Customer(AbstractBaseUser, PermissionsMixin):
     checkId = models.CharField("Check Id", max_length=25, default=shortuuid.uuid, unique=True)
     firstName = models.CharField("Ism", max_length=255)
     phoneNumber = models.CharField("Tel.raqam", max_length=255, unique=True)
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     password = models.CharField(max_length=255)
+    showedPassword = models.CharField(max_length=500)
+
+    USERNAME_FIELD = "phoneNumber"
+    REQUIRED_FIELDS = []
+
+    objects = CustomerManager()
 
 
     def __str__(self):
@@ -20,10 +29,12 @@ class Customer(models.Model):
         verbose_name = "Mijoz"
         verbose_name_plural = "Mijozlar"
 
+
 STATUS_CHOISES = (
     ("OPEN", "Ochiq"),
     ("CLOSE", "Yopiq"),
 )
+
 
 class ProductPurchase(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="purchases")

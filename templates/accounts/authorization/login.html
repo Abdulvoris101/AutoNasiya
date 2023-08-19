@@ -18,6 +18,7 @@
 <body>
 
     <div class="container" >
+        
         <div class="row" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
             <div class="col-lg-6">
                 <div class="card">
@@ -25,18 +26,21 @@
                         <h3>Tizimga kirish</h3>
                     </div>
                     <div class="card-body mt-2">
-                        
-                        <form method="POST" action="{% url 'index' %}">
+                        {% if messages %}
+                            {% for message in messages %}
+                                <span {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        {% endif %}
+
+                        <form method="POST" class="pt-3">
                             {% csrf_token %}
-                            <label for="username">Username:</label>
-                            <input type="text" id="username" name="username" class="form-control">
-                            <br>
-                            <label for="password">Password:</label>
-                            <input type="password" id="password" name="password" class="form-control">
-                            <br>
+
+                            {{ form.as_p }}
+                            
                             <div class="d-flex justify-content-end">
-                                <button class="btn btn-success mt-3">Tizimga kirish</button>
+                                <button class="btn btn-success mt-3" type="submit">Tizimga kirish</button>
                             </div>
+
                         </form>
                        
                     </div>

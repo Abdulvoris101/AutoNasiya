@@ -1,7 +1,30 @@
 from django.contrib import admin
 from .models import Customer, ProductPurchase
 from core.models import Payment
+from django.contrib.auth.admin import UserAdmin
 
+class CustomerAdmin(UserAdmin):
+    model = Customer
+    list_display = ("phoneNumber", "is_staff", "is_active",)
+    list_filter = ("phoneNumber", "is_staff", "is_active",)
+    fieldsets = (
+        (None, {"fields": ("phoneNumber", "password")}),
+        ("Permissions", {"fields": ("is_staff", "is_active", "groups", "user_permissions")}),
+    )
+    add_fieldsets = (
+        (None, {
+            "classes": ("wide",),
+            "fields": (
+                "email", "password1", "password2", "is_staff",
+                "is_active", "groups", "user_permissions"
+            )}
+        ),
+    )
+    search_fields = ("phoneNumber",)
+    ordering = ("phoneNumber",)
+
+
+admin.site.register(Customer, CustomerAdmin)
 
 class ProductPurchaseInline(admin.TabularInline):
     model = ProductPurchase
@@ -43,13 +66,8 @@ class ProductPurchaseAdmin(admin.ModelAdmin):
     list_filter = ("customer", "status")
 
 
-    
-
-
-
-
-@admin.register(Customer)
-class CustomerAdmin(admin.ModelAdmin):
-    inlines = [ProductPurchaseInline]
-    list_display = ("firstName", "phoneNumber", "checkId")
-    search_fields = ("phoneNumber", "checkId", "firstName")
+# @admin.register(Customer)
+# class CustomerAdmin(admin.ModelAdmin):
+#     inlines = [ProductPurchaseInline]
+#     list_display = ("firstName", "phoneNumber", "checkId")
+#     search_fields = ("phoneNumber", "checkId", "firstName")

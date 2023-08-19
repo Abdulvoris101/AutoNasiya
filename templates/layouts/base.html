@@ -32,10 +32,13 @@
               <i class="fas fa-search search-icon"></i>
           </div>
         </form>
+            
 
+      {% if request.user.is_staff %}
         <a href="{% url 'account' %}"><button class="btn btn-outline-success me-2 mt-2">Mijoz qo'shish</button></a>
+      {% endif  %}
         <a href="{% url 'login' %}"><img class="rounded rounded-circle ms-2" style="max-height: 50px" src="{% static 'images/pro.webp' %}"></a>
-  
+        
       </div>
 
     </div>
@@ -55,6 +58,7 @@
       </div>
     </nav>
   </div>
+  
   {% block content %}{% endblock %}
 
 
