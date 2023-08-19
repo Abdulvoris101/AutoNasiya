@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+    
+    <form method="GET" action="{% url 'search_view' %}">
+        <input type="text" name="q" value="{{ query }}">
+        <button type="submit">Search</button>
+    </form>
+    
+    {% if query %}
+    <p>Search results for "{{ query }}":</p>
+    <ul>
+        {% for product in results %}
+            <li>{{ product.firstName }} - {{ product.lastName }}</li>  <!-- Adjust field names here -->
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Enter a search query above.</p>
+{% endif %}
+</body>
+</html>

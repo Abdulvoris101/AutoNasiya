@@ -1,24 +1,70 @@
 {% extends 'layouts/base.html' %}
 {% block content %}
 
-<div class="container table-responsive py-5">
-  <table class="table table-bordered table-hover">
-    <thead class="bg-success">
-      <tr class="text-white">
-        <th scope="col">Ism</th>
-        <th scope="col">Check Id</th>
-        <th scope="col">Tel</th>
-      </tr>
-    </thead>
-    {% for item in customer %}
-    <tbody>
-      <tr>
-        <td><a class="text-dark" href="{% url 'customer-detail' item.id %}">{{ item.firstName|slice:":18" }}</a></td>
-        <th scope="row"><a class="text-dark" href="{% url 'customer-detail' item.id %}">{{ item.checkId|slice:":5" }}...</a></th>
-        <th scope="row"><a class="text-dark" href="{% url 'customer-detail' item.id %}">{{ item.phoneNumber }}</a></th>
-      </tr>
-    </tbody>
-    {% endfor %}
-  </table>
+
+<div class="d-block d-md-none">
+  <div class="container mt-2">
+    <form class="d-flex" method="GET" action="">
+      <input class="form-control rounded-pill shadow-sm search-input" type="text" placeholder="Mijoz qidirish..." aria-label="Search" name="q" value="{% if query %}{{ query }}{% endif %}" autocomplete="off">
+    </form>
+
+  </div>
 </div>
+
+
+
+  {% if query %}
+    
+    {% if results|length == 0 %}
+      <div class="message-container">
+        <div class="icon">&#128542;</div>
+        <div class="message">Kechirasiz bunday foydalanuvchi topilmadi.</div>
+        <a class="back-link" href="{% url 'index' %}">Bosh sahifaga qaytish</a>
+      </div>
+    {% else %}
+      <div class="container table-responsive py-5">
+        <table class="table table-bordered table-hover shadow">
+          <thead class="bg-success">
+            <tr class="text-white">
+              <th scope="col">Ism</th>
+              <th scope="col">Check Id</th>
+              <th scope="col">Tel</th>
+            </tr>
+          </thead>
+          {% for item in results %}
+          <tbody>
+            <tr>
+              <th scope="row"><a class="text-dark" href="{% url 'customer-detail' item.id %}">{{ item.firstName|slice:":18" }}</a></a></th>
+              <th scope="row"><a class="text-dark" href="{% url 'customer-detail' item.id %}">{{ item.checkId|slice:":5" }}...</a></th>
+              <th scope="row"><a class="text-dark" href="{% url 'customer-detail' item.id %}">{{ item.phoneNumber }}</a></th>
+            </tr>
+          </tbody>
+          {% endfor %}
+        </table>
+      </div>
+    {% endif %}
+
+  {% else %}
+    <div class="container table-responsive py-5">
+      <table class="table table-bordered table-hover shadow">
+        <thead class="bg-success">
+          <tr class="text-white">
+            <th scope="col">Ism</th>
+            <th scope="col">Check Id</th>
+            <th scope="col">Tel</th>
+          </tr>
+        </thead>
+        {% for item in customer %}
+        <tbody>
+          <tr>
+            <th scope="row"><a class="text-dark" href="{% url 'customer-detail' item.id %}">{{ item.firstName|slice:":18" }}</a></a></th>
+            <th scope="row"><a class="text-dark" href="{% url 'customer-detail' item.id %}">{{ item.checkId|slice:":5" }}...</a></th>
+            <th scope="row"><a class="text-dark" href="{% url 'customer-detail' item.id %}">{{ item.phoneNumber }}</a></th>
+          </tr>
+        </tbody>
+        {% endfor %}
+      </table>
+    </div>
+  {% endif %}
+
 {% endblock %}

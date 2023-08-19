@@ -9,24 +9,20 @@
       </button>
     </div>
     <div class="collapse" id="collapseExample">
-      <div class="card card-body">
+      <div class="card card-body shadow-sm">
         <div class="col-lg-12">
+         
           <form method="POST" action="">
-              
-              <div class="input-group mb-4">
-                <input
-                  type="int"
-                  class="form-control"
-                  placeholder="Oylik to'lov"
-                  aria-label="amountOfMonth"
-                  aria-describedby="basic-addon1"
-                />
+            {% csrf_token %}
+              <div>
+                {{ form.as_p }}
               </div>
               <div class="d-flex">
                 <button class="btn btn-success ms-auto">Saqlash</button>
               </div>
             
           </form>
+          
         </div>
       </div>
     </div>
@@ -37,15 +33,9 @@
 
 
 <div class="container table-responsive py-5">
-  <table class="table table-bordered table-hover">
-    {% for product in items %}
-    <thead class="">
-      <tr class="">
-        <th scope="col">Check</th>
-        <th scope="col">{{ product.customer.checkId }}</th>
-      </tr>
-    </thead>
-
+  <table class="table table-bordered table-hover shadow-sm">
+    {% for product in product %}
+    
     <thead class="">
       <tr class="">
         <th scope="col">Ism</th>
@@ -67,12 +57,15 @@
       </tr>
     </thead>
 
+    
     <thead class="">
       <tr class="">
-        <th scope="col">Nechanchi to'lov</th>
-        <th scope="col"></th>
+        <th scope="col">Necha marotaba to'landi</th>
+        <th scope="col">{{ payment_count }}</th>
       </tr>
     </thead>
+    
+
 
     <thead class="">
       <tr class="">
@@ -130,13 +123,7 @@
       </tr>
     </thead>
 
-    <thead class="">
-      <tr class="">
-        <th scope="col">Parol</th>
-        <th scope="col">{{product.customer.password}}</th>
-      </tr>
-    </thead>
-
+    
     <thead class="">
       <tr class="">
         <th scope="col">Tel</th>
@@ -144,18 +131,46 @@
       </tr>
     </thead>
 
-    {% comment %}
     <thead class="">
       <tr class="">
-        <th scope="col"><button class="btn btn-danger">O'chirish</button></th>
-        <th scope="col"><button class="btn btn-warning">Tahrirlash</button></th>
+        <th scope="col">Check id</th>
+        <th scope="col">{{ product.customer.checkId }}</th>
       </tr>
     </thead>
-    {% endcomment %} {% endfor %}
+
+    <thead class="">
+      <tr class="">
+        <th scope="col">Parol</th>
+        <th scope="col">{{product.customer.password}}</th>
+      </tr>
+    </thead>
+    
+  {% endfor %}
   </table>
 </div>
 
 
+
+<div class="container table-responsive">
+  <table class="table table-bordered shadow-sm table-hover">
+    
+    <thead class="">
+      <tr class="">
+        <th scope="col">Qachon</th>
+        <th scope="col">Qancha to'landi</th>
+      </tr>
+    </thead>
+    {% for add in payment %}
+    <thead class="">
+      <tr class="">
+        <th scope="col">{{ add.date }}</th>
+        <th scope="col">{{ add.amount }}$</th>
+      </tr>
+    </thead>
+    {% endfor %}
+  
+  </table>
+</div>
 
 
 {% endblock %}

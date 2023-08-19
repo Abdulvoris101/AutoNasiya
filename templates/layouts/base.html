@@ -10,21 +10,29 @@
   <link rel="stylesheet" href="{% static 'style.css' %}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
 </head>
 
 <body>
 
   
   
-  <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-md-block">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-md-block border-bottom shadow-sm">
     <div class="container">
 
 
       <a class="navbar-brand" href="{% url 'index' %}">Bosh sahifa</a>
       <div class="d-flex">
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+
+        <form method="GET" action="" class="d-flex search-container">
+          <div class="search-input-container me-3">
+              <input class="form-control rounded-pill shadow-sm search-input" type="text" placeholder="Mijoz qidirish..." aria-label="Search" name="q" value="{% if query %}{{ query }}{% endif %}" autocomplete="off">
+              <i class="fas fa-search search-icon"></i>
+          </div>
         </form>
+
         <a href="{% url 'account' %}"><button class="btn btn-outline-success">Mijoz qo'shish</button></a>
   
       </div>
@@ -32,24 +40,20 @@
     </div>
   </nav>
 
+  <div class="d-block d-md-none">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+          <a class="navbar-brand text-dark" href="{% url 'index' %}">Bosh sahifa</a>
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
 
-      <div class="d-block d-md-none">
-        <div class="d-flex">
-          <a class="navbar-brand" href="{% url 'index' %}">Bosh sahifa</a>
-
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-
-          <a href="{% url 'account' %}"><button class="btn btn-outline-success">Qo'shish</button></a>
-        </div>
+          <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                  <a class="nav-link text-dark" href="{% url 'account' %}"><button class="btn btn-outline-success">Mijoz qo'shish</button></a>
+              </li>
+          </ul>
       </div>
-
-
-    </div>
-  </nav>
-
+    </nav>
+  </div>
   {% block content %}{% endblock %}
 
 
