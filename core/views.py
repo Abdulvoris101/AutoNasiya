@@ -4,13 +4,18 @@ from authapp.models import ProductPurchase
 from django.shortcuts import get_object_or_404, redirect, render
 from authapp.models import Customer
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 
 
+@login_required
 def index(request):
     customers = Customer.objects.all()
+    
+    customer = Customer.objects.get(phoneNumber=request.user)
 
     query = request.GET.get('q')  # Get the search query from the URL parameter
+    
 
     if query:
         results = Customer.objects.filter(
@@ -24,12 +29,14 @@ def index(request):
     context = {
         'query': query,
         'results': results,
-        'customers': customers
+        'customers': customers,
+        'customer': customer
     }
     
     return render(request, "index.html", context)
 
 
+@login_required
 def productPurchaseDetail(request, pk):
     product = get_object_or_404(ProductPurchase, pk=pk)
     

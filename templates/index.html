@@ -2,8 +2,7 @@
 {% block content %}
 
 
-{{ request.user }}
-    
+{% if request.user.is_staff %}
   <div class="d-block d-md-none">
     <div class="container mt-2">
       <form class="d-flex" method="GET" action="">
@@ -12,7 +11,7 @@
 
     </div>
   </div>
-
+{% endif  %}
   
 
   {% if query %}
@@ -39,9 +38,9 @@
               <tr>
 
                 {% if customer.purchases.first.id %}
-                  <th scope="row"><a class="text-dark" href="{% url 'customer-detail' customer.purchases.first.id %}">{{ customer.firstName|slice:":18" }}</a></a></th>
-                  <th scope="row"><a class="text-dark" href="{% url 'customer-detail' customer.purchases.first.id %}">{{ customer.checkId|slice:":5" }}...</a></th>
-                  <th scope="row"><a class="text-dark" href="{% url 'customer-detail' customer.purchases.first.id %}">{{ customer.phoneNumber }}</a></th>
+                  <th scope="row"><a class="text-dark" href="{% url 'product' customer.purchases.first.id %}">{{ customer.firstName|slice:":18" }}</a></a></th>
+                  <th scope="row"><a class="text-dark" href="{% url 'product' customer.purchases.first.id %}">{{ customer.checkId|slice:":5" }}...</a></th>
+                  <th scope="row"><a class="text-dark" href="{% url 'product' customer.purchases.first.id %}">{{ customer.phoneNumber }}</a></th>
                 {% endif %}
 
               </tr>
@@ -61,20 +60,35 @@
             <th scope="col">Tel</th>
           </tr>
         </thead>
-        {% for customer in customers %}
-        
-        <tbody>
-          <tr>
+        {% if request.user.is_staff %}
+          {% for customer in customers %}
+          
+          <tbody>
+            <tr>
+              
+              {% if customer.purchases.first.id %}
+                <th scope="row"><a class="text-dark" href="{% url 'product' customer.purchases.first.id %}">{{ customer.firstName|slice:":18" }}</a></a></th>
+                <th scope="row"><a class="text-dark" href="{% url 'product' customer.purchases.first.id %}">{{ customer.checkId|slice:":5" }}...</a></th>
+                <th scope="row"><a class="text-dark" href="{% url 'product' customer.purchases.first.id %}">{{ customer.phoneNumber }}</a></th>
+              {% endif %}
             
-            {% if customer.purchases.first.id %}
-              <th scope="row"><a class="text-dark" href="{% url 'product' customer.purchases.first.id %}">{{ customer.firstName|slice:":18" }}</a></a></th>
-              <th scope="row"><a class="text-dark" href="{% url 'product' customer.purchases.first.id %}">{{ customer.checkId|slice:":5" }}...</a></th>
-              <th scope="row"><a class="text-dark" href="{% url 'product' customer.purchases.first.id %}">{{ customer.phoneNumber }}</a></th>
-            {% endif %}
-           
-          </tr>
-        </tbody>
-        {% endfor %}
+            </tr>
+          </tbody>
+          {% endfor %}
+
+        {% else %}
+            <tbody>
+              <tr>
+                {% if customer.purchases.first.id %}
+                  <th scope="row"><a class="text-dark" href="{% url 'product' customer.purchases.first.id %}">{{ customer.firstName|slice:":18" }}</a></a></th>
+                  <th scope="row"><a class="text-dark" href="{% url 'product' customer.purchases.first.id %}">{{ customer.checkId|slice:":5" }}...</a></th>
+                  <th scope="row"><a class="text-dark" href="{% url 'product' customer.purchases.first.id %}">{{ customer.phoneNumber }}</a></th>
+                {% endif %}
+              </tr>
+            </tbody>
+
+
+        {% endif %}
       </table>
     </div>
   {% endif %}

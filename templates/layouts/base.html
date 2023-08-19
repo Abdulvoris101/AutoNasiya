@@ -18,27 +18,42 @@
 <body>
 
   
-  
   <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-md-block border-bottom shadow-sm">
     <div class="container">
 
 
       <a class="navbar-brand" href="{% url 'index' %}">Bosh sahifa</a>
       <div class="d-flex">
-
-        <form method="GET" action="" class="d-flex search-container">
-          <div class="search-input-container me-3">
-              <input class="form-control rounded-pill shadow-sm search-input" type="text" placeholder="Mijoz qidirish..." aria-label="Search" name="q" value="{% if query %}{{ query }}{% endif %}" autocomplete="off">
-              <i class="fas fa-search search-icon"></i>
-          </div>
-        </form>
-            
-
-      {% if request.user.is_staff %}
-        <a href="{% url 'account' %}"><button class="btn btn-outline-success me-2 mt-2">Mijoz qo'shish</button></a>
-      {% endif  %}
-        <a href="{% url 'login' %}"><img class="rounded rounded-circle ms-2" style="max-height: 50px" src="{% static 'images/pro.webp' %}"></a>
         
+        {% if request.user.is_staff %}
+          <form method="GET" action="" class="d-flex search-container">
+            <div class="search-input-container me-3">
+                <input class="form-control rounded-pill shadow-sm search-input" type="text" placeholder="Mijoz qidirish..." aria-label="Search" name="q" value="{% if query %}{{ query }}{% endif %}" autocomplete="off">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+          </form>
+            
+          
+        {% endif  %}
+        
+        
+        <div class="dropdown">
+            <a type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" href="{% url 'login' %}"><img class="rounded rounded-circle ms-2" style="max-height: 50px" src="{% static 'images/pro.webp' %}"></a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              
+              {% if request.user.is_authenticated %}
+                {% if request.user.is_staff %}
+                  <a href="{% url 'account' %}"><button class="btn btn-outline-success ms-3 mt-2 mb-2">Mijoz qo'shish</button></a>
+                {% endif%}
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Tizimdan chiqish</a></li>
+
+                <li><a class="dropdown-item" href="{% url 'ChangePassword' %}">Parol o'zgartirish</a></li>
+              {% else %}
+                <li><a class="dropdown-item" href="{% url 'login' %}">Tizimga kirish</a></li>
+              {% endif%}
+              
+            </ul>
+        </div>
       </div>
 
     </div>
@@ -50,11 +65,21 @@
           <a class="navbar-brand text-dark" href="{% url 'index' %}">Bosh sahifa</a>
 
 
-          <ul class="navbar-nav ml-auto">
-              <li class="nav-item">
+          <div class="dropdown">
+            <a type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" href="{% url 'login' %}"><img class="rounded rounded-circle ms-2" style="max-height: 50px" src="{% static 'images/pro.webp' %}"></a>
+            <ul class="dropdown-menu ms-auto" aria-labelledby="dropdownMenuButton1">
+              
+              {% if request.user.is_authenticated %}
+                <li class="nav-item">
                   <a class="nav-link text-dark" href="{% url 'account' %}"><button class="btn btn-outline-success">Mijoz qo'shish</button></a>
               </li>
-          </ul>
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Tizimdan chiqish</a></li>
+              {% else %}
+                <li><a class="dropdown-item" href="{% url 'login' %}">Tizimga kirish</a></li>
+              {% endif%}
+              
+            </ul>
+        </div>
       </div>
     </nav>
   </div>

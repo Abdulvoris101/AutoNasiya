@@ -54,3 +54,20 @@ class ProductPurchaseForm(forms.ModelForm):
 class LoginForm(forms.Form):
     phoneNumber = forms.CharField(max_length=255)
     password = forms.CharField(max_length=500   , widget=forms.PasswordInput)
+    
+    phoneNumber = forms.IntegerField(label="Tel raqam", widget=forms.NumberInput(attrs={
+        "placeholder": "+998",
+        "class": "form-control",
+    }))
+    
+    password = forms.CharField(label="parol", widget=forms.TextInput(attrs={
+        "placeholder": "password",
+        "class": "form-control",
+    }))
+    
+    
+class ChangePasswordForm(forms.Form):
+    password = forms.CharField(max_length=255, widget=forms.PasswordInput)
+    oldPassword = forms.CharField(max_length=500, widget=forms.PasswordInput)
+    
+ 

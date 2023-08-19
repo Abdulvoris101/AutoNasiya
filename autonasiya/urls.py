@@ -4,6 +4,6 @@ from authapp.views import CustomerCreateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('account/', include('authapp.urls')),
-    path('', include('core.urls')),
+    path('', include('authapp.urls')),
+    path('account/', include('core.urls')),
 ]
